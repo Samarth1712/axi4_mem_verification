@@ -23,10 +23,13 @@ class axi4_monitor extends uvm_monitor;
 
     task run_phase(uvm_phase phase);
         @(posedge vif.aclk iff vif.aresetn);
+        // join_none: parent returns immediately; UVM phase controller
+        // kills both threads when all objections are dropped.
+        // join (blocking) would prevent the phase from ending cleanly.
         fork
             monitor_write();
             monitor_read();
-        join
+        join_none
     endtask
 
     // -----------------------------------------------------------

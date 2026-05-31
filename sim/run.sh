@@ -26,7 +26,7 @@ COMPILE_ARGS=(
     -uvmhome "$UVM_HOME"
     -access +rwc
     -define UVM_NO_DEPRECATED
-    -log compile.log
+    -incdir ../pkg
     "$RTL"
     "$INTF"
     "$PKG"
@@ -37,7 +37,6 @@ SIM_ARGS=(
     -uvm
     -uvmhome "$UVM_HOME"
     -input run.tcl
-    -log sim.log
 )
 
 # -----------------------------------------------------------
@@ -54,6 +53,7 @@ run_one() {
          "${SIM_ARGS[@]}" \
          -coverage all \
          -covdb "results/$tname/cov.db" \
+         -log "results/$tname/sim.log" \
          +UVM_TESTNAME="$tname" \
          +UVM_VERBOSITY=UVM_MEDIUM 2>&1 | tee "results/$tname/run.log"
 }
