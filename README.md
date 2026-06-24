@@ -86,6 +86,36 @@ axi4_mem_verif/
 
 ---
 
+## Machine-specific setup
+Xcelium's UVM install path differs by machine. Before running anything:
+
+1. Find where Xcelium is installed:
+```bash
+   which xrun
+```
+   This prints something like `/home/install/XCELIUM2509/tools.lnx86/bin/xrun`.
+   The install root is everything before `tools...` — in this example, `/home/install/XCELIUM2209`.
+
+2. Search that root for the UVM SystemVerilog library (works in any shell):
+```bash
+   find /home/install/XCELIUM2509 -iname "uvm_macros.svh"
+```
+   Pick the result under the version your script expects (e.g. `.../UVM/CDNS-1.2/sv/src/uvm_macros.svh`).
+
+3. Set `UVM_HOME` to the directory *containing* `src/` (i.e. drop the trailing `/src/uvm_macros.svh`) — so it ends in `.../sv`:
+
+   **bash:**
+```bash
+   export UVM_HOME=/home/install/XCELIUM2509/tools.lnx86/methodology/UVM/CDNS-1.2/sv
+```
+
+   **tcsh/csh:**
+```tcsh
+   setenv UVM_HOME /home/install/XCELIUM2509/tools.lnx86/methodology/UVM/CDNS-1.2/sv
+```
+
+---
+
 ## Running
 
 ### Prerequisites
