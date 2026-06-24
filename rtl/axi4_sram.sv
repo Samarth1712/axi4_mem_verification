@@ -3,6 +3,7 @@
 // 32-bit data, 16-bit address, 4KB depth
 // Supports INCR and FIXED bursts; WRAP returns SLVERR
 // =============================================================
+`timescale 1ns/1ps
 module axi4_sram #(
     parameter int DATA_WIDTH = 32,
     parameter int ADDR_WIDTH = 16,
