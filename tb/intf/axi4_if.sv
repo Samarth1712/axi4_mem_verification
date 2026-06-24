@@ -1,6 +1,7 @@
 // =============================================================
 // AXI4 Interface + SVA Protocol Assertions
 // =============================================================
+`timescale 1ns/1ps
 interface axi4_if #(
     parameter int DATA_WIDTH = 32,
     parameter int ADDR_WIDTH = 16,
