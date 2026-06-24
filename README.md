@@ -27,7 +27,8 @@ axi4_mem_verif/
 │       └── tb_top.sv         # Top-level: DUT instantiation, clock gen, UVM kickoff
 └── sim/
     ├── run.sh                # Xcelium compile + run script
-    ├── run.tcl               # Simulator control TCL
+    ├── run.tcl               # Batch-mode simulator control TCL (auto-exits)
+    ├── run_gui.tcl           # GUI-mode TCL: opens waveform DB, probes all signals
     └── merge_cov.tcl         # IMC coverage merge + report
 ```
 
@@ -114,13 +115,28 @@ Xcelium's UVM install path differs by machine. Before running anything:
    setenv UVM_HOME /home/install/XCELIUM2509/tools.lnx86/methodology/UVM/CDNS-1.2/sv
 ```
 
+> **Note:** `setenv`/`export` only applies to your current terminal session.
+> To avoid repeating this every time, add the `setenv` line to your `~/.cshrc`
+> (tcsh) or the `export` line to your `~/.bashrc` (bash), then run
+> `source ~/.cshrc` (or open a new terminal) once. If `UVM_HOME` is already
+> set correctly, `run.sh` will use it automatically; if it's unset or
+> invalid, `run.sh` will tell you exactly what's wrong instead of failing
+> deep inside a compiler error.
+
 ---
 
 ## Running
 
 ### Prerequisites
 - Cadence Xcelium with UVM 1.2
-- Set `UVM_HOME` if your path differs from the default in `run.sh`
+- Set `UVM_HOME` if your path differs from default in `run.sh` — see "Machine-specific setup" above
+
+### Help
+```bash
+./run.sh -h
+# or
+./run.sh --help
+```
 
 ### Single test
 ```bash
@@ -133,10 +149,37 @@ chmod +x run.sh
 ```bash
 ./run.sh all
 ```
+Runs all 8 tests sequentially, writes a per-test log/coverage DB under
+`results/<test>/`, merges coverage at the end, and prints a summary table
+showing each test's tool exit status and UVM_ERROR count.
+
+> Tool status reflects whether `xrun` itself completed cleanly (compile/
+> elaboration/crash-level). It does **not** by itself confirm the scoreboard
+> passed — always also check the UVM_ERROR count column, and the
+> `SCOREBOARD SUMMARY` inside each `results/<test>/run.log` for the real
+> pass/fail verdict.
 
 ### Default (regression)
 ```bash
 ./run.sh
+```
+
+### Single test with live GUI (waveform debug)
+```bash
+cd sim
+./run.sh axi4_smoke_test --gui
+```
+Opens SimVision with every signal already added to the waveform window, runs
+the test, and stays open afterward for inspection. The waveform database is
+also saved to `results/<test>/waves.shm` for later viewing.
+
+> `--gui` only works on a single named test — not `all` or the default
+> regression — since the GUI blocks until you close it.
+
+### Viewing a saved waveform later (no re-simulation)
+```bash
+cd sim
+simvision results/axi4_smoke_test/waves.shm
 ```
 
 ### View coverage in IMC
