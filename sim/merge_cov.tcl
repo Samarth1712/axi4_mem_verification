@@ -18,9 +18,13 @@ if {[llength $db_list] == 0} {
 puts "Found [llength $db_list] coverage database(s):"
 foreach d $db_list { puts "  $d" }
 
-if {[catch {load -run {*}$db_list} err]} {
-    puts "ERROR during load: $err"
-    exit 1
+# load -run only accepts one rundir per call — load each one in turn,
+# IMC accumulates them into the current session for merge below.
+foreach d $db_list {
+    if {[catch {load -run $d} err]} {
+        puts "ERROR loading $d: $err"
+        exit 1
+    }
 }
 
 if {[catch {merge -out results/merged.vdb -overwrite} err]} {
