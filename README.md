@@ -182,7 +182,15 @@ cd sim
 simvision results/axi4_smoke_test/waves.shm
 ```
 
-### View coverage in IMC
+### Generate and view coverage in IMC
+After running tests (`./run.sh all` or individually), merge the per-test
+coverage databases:
+```bash
+cd sim
+imc -exec merge_cov.tcl
+```
+This writes `results/merged.vdb` and a text summary to
+`results/cov_summary.txt`. Then open it in the GUI:
 ```bash
 imc -load results/merged.vdb
 ```
