@@ -88,7 +88,9 @@ run_one() {
     xrun "${COMPILE_ARGS[@]}" \
          "${SIM_ARGS[@]}" \
          -coverage all \
-         -covdb "results/$tname/cov.db" \
+         -covworkdir "results/$tname/cov_work" \
+         -covtest "$tname" \
+         -covoverwrite \
          -log "results/$tname/sim.log" \
          +UVM_TESTNAME="$tname" \
          +UVM_VERBOSITY=UVM_MEDIUM 2>&1 | tee "results/$tname/run.log"
