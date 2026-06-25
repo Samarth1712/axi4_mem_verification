@@ -14,34 +14,34 @@ interface axi4_if #(
     localparam int STRB_W = DATA_WIDTH / 8;
 
     // Write Address Channel
-    logic [ID_WIDTH-1:0]   awid;
-    logic [ADDR_WIDTH-1:0] awaddr;
-    logic [7:0]            awlen;
-    logic [2:0]            awsize;
-    logic [1:0]            awburst;
-    logic                  awvalid;
+    logic [ID_WIDTH-1:0]   awid    = '0;
+    logic [ADDR_WIDTH-1:0] awaddr  = '0;
+    logic [7:0]            awlen   = '0;
+    logic [2:0]            awsize  = '0;
+    logic [1:0]            awburst = '0;
+    logic                  awvalid = '0;
     logic                  awready;
 
     // Write Data Channel
-    logic [DATA_WIDTH-1:0] wdata;
-    logic [STRB_W-1:0]     wstrb;
-    logic                  wlast;
-    logic                  wvalid;
+    logic [DATA_WIDTH-1:0] wdata   = '0;
+    logic [STRB_W-1:0]     wstrb   = '0;
+    logic                  wlast   = '0;
+    logic                  wvalid  = '0;
     logic                  wready;
 
     // Write Response Channel
     logic [ID_WIDTH-1:0] bid;
     logic [1:0]          bresp;
     logic                bvalid;
-    logic                bready;
+    logic                bready    = '0;
 
     // Read Address Channel
-    logic [ID_WIDTH-1:0]   arid;
-    logic [ADDR_WIDTH-1:0] araddr;
-    logic [7:0]            arlen;
-    logic [2:0]            arsize;
-    logic [1:0]            arburst;
-    logic                  arvalid;
+    logic [ID_WIDTH-1:0]   arid    = '0;
+    logic [ADDR_WIDTH-1:0] araddr  = '0;
+    logic [7:0]            arlen   = '0;
+    logic [2:0]            arsize  = '0;
+    logic [1:0]            arburst = '0;
+    logic                  arvalid = '0;
     logic                  arready;
 
     // Read Data Channel
@@ -50,8 +50,8 @@ interface axi4_if #(
     logic [1:0]            rresp;
     logic                  rlast;
     logic                  rvalid;
-    logic                  rready;
-
+    logic                  rready  = '0;
+ 
     // -----------------------------------------------------------
     // Clocking blocks (UVM driver and monitor use these)
     // -----------------------------------------------------------
