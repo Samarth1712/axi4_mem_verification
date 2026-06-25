@@ -9,7 +9,7 @@ boundary conditions, and burst behaviour.
 ## Repository Structure
 
 ```
-axi4_mem_verif/
+axi4_mem_verification/
 ├── rtl/
 │   └── axi4_sram.sv          # DUT: AXI4 slave SRAM controller (32-bit, 4KB)
 ├── tb/
