@@ -2,8 +2,12 @@
 # Merges all per-test coverage databases into one and reports
 
 set db_list {}
-foreach dir [glob -nocomplain results/*/cov.db] {
-    lappend db_list $dir
+foreach dir [glob -nocomplain results/*] {
+    set tname [file tail $dir]
+    set rundir "$dir/cov_work/scope/$tname"
+    if {[file isdirectory $rundir]} {
+        lappend db_list $rundir
+    }
 }
 
 if {[llength $db_list] == 0} {
@@ -14,8 +18,6 @@ if {[llength $db_list] == 0} {
 puts "Found [llength $db_list] coverage database(s):"
 foreach d $db_list { puts "  $d" }
 
-# {*} expands the list into separate arguments — without it, load -run
-# receives the whole list as a single string and silently mishandles it.
 if {[catch {load -run {*}$db_list} err]} {
     puts "ERROR during load: $err"
     exit 1
